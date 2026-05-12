@@ -87,3 +87,4 @@ vim.keymap.set("n", "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", { desc = "Qu
 require("config.lazy")
 
 vim.cmd("colorscheme onedark_dark")
+
