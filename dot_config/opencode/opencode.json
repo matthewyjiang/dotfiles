@@ -4,5 +4,13 @@
     "opencode-gemini-auth@latest",
     "@ex-machina/opencode-anthropic-auth",
     "@slkiser/opencode-quota"
-  ]
+  ],
+  "agent": {
+    "plan": {
+      "model": "anthropic/claude-opus-4-8"
+    },
+    "build": {
+      "model": "anthropic/claude-sonnet-4-5"
+    }
+  }
 }
