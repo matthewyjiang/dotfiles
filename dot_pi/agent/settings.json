@@ -2,8 +2,12 @@
   "lastChangelogVersion": "0.78.1",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.5",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "low",
   "hideThinkingBlock": true,
   "theme": "dark",
-  "packages": []
+  "packages": [
+    "npm:@tintinweb/pi-subagents",
+    "npm:@narumitw/pi-plan-mode",
+    "npm:@narumitw/pi-codex-usage"
+  ]
 }

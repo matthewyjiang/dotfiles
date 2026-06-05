@@ -45,6 +45,10 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 export EDITOR="nvim"
 export VISUAL="nvim"
+
+if command -v bun >/dev/null 2>&1 || [ -x "${BUN_INSTALL:-$HOME/.bun}/bin/bun" ]; then
+  export PATH="$HOME/.bun/bin:$PATH"
+fi
 if command -v eza >/dev/null 2>&1; then
   alias ls='eza --color=auto'
 fi
