@@ -6,9 +6,6 @@
   "hideThinkingBlock": true,
   "theme": "dark",
   "packages": [
-    "npm:@tintinweb/pi-subagents",
-    "npm:@narumitw/pi-plan-mode",
-    "npm:@narumitw/pi-codex-usage",
-    "npm:@juicesharp/rpiv-ask-user-question"
+    "npm:@tintinweb/pi-subagents"
   ]
 }
