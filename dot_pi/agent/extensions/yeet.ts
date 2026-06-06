@@ -8,13 +8,17 @@ const EXEC_TIMEOUT_MS = 120_000
 const DIFF_MAX_CHARS = 24_000
 const CONFIG_PATH = join(homedir(), ".pi", "agent", "yeet.json")
 
-const COMMIT_MESSAGE_SYSTEM_PROMPT = `You write concise git commit messages.
+const COMMIT_MESSAGE_SYSTEM_PROMPT = `You write concise Conventional Commit messages.
 
 Given git status and staged diff, output exactly one commit message:
-- Use imperative mood, present tense
-- Keep it under 72 characters when possible
-- No markdown, quotes, prefixes, explanations, or trailing punctuation
-- If there are multiple unrelated changes, summarize the main theme`
+- Follow Conventional Commits: type(scope): description
+- Use one of these types when appropriate: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+- Include a short lowercase scope when it is clear from the changed files; omit scope if unclear
+- Use ! after the type or scope only for breaking changes
+- Write the description in imperative mood, present tense, lowercase
+- Keep the first line under 72 characters when possible
+- No markdown, quotes, explanations, body, footer, or trailing punctuation
+- If there are multiple unrelated changes, use chore: summarize changes`
 
 type ExecResult = Awaited<ReturnType<ExtensionAPI["exec"]>>
 

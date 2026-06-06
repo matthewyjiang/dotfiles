@@ -1,7 +1,3 @@
-# Global Agent Instructions
+# AGENTS.md
 
-- Be concise and direct.
-- Prefer reading files before editing them.
-- Use precise, minimal edits.
-- Explain changed files clearly.
-- Do not expose or commit secrets.
+On this machine, use the `ubuntu` distrobox to run shell commands when working with ROS 2.

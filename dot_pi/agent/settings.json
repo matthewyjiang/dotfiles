@@ -5,7 +5,11 @@
   "defaultThinkingLevel": "low",
   "hideThinkingBlock": true,
   "theme": "dark",
+  "quietStartup": true,
   "packages": [
     "npm:@tintinweb/pi-subagents"
+  ],
+  "extensions": [
+    "+/home/emgym/.pi/agent/extensions/custom-header.ts"
   ]
 }
