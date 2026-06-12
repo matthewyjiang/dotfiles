@@ -8,7 +8,8 @@
   "quietStartup": true,
   "packages": [
     "npm:@tintinweb/pi-subagents",
-    "npm:pi-web-access"
+    "npm:pi-web-access",
+    "npm:@juicesharp/rpiv-btw"
   ],
   "extensions": [
     "+/home/emgym/.pi/agent/extensions/custom-header.ts"
