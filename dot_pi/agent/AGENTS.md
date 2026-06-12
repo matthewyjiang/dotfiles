@@ -1,7 +1,5 @@
 # AGENTS.md
 
-On this machine, use the `ubuntu` distrobox to run shell commands when working with ROS 2.
-
 When creating or editing GitHub issue and PR bodies with the `gh` CLI, use `--body-file` with a temporary Markdown file or a heredoc-generated file. Do not pass Markdown bodies as quoted strings with escaped newlines, because that can produce literal `\n` text in GitHub.
 
 ## Code judo
