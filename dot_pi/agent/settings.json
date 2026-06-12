@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.78.1",
+  "lastChangelogVersion": "0.79.1",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.5",
   "defaultThinkingLevel": "low",
@@ -7,7 +7,8 @@
   "theme": "dark",
   "quietStartup": true,
   "packages": [
-    "npm:@tintinweb/pi-subagents"
+    "npm:@tintinweb/pi-subagents",
+    "npm:pi-smart-fetch"
   ],
   "extensions": [
     "+/home/emgym/.pi/agent/extensions/custom-header.ts"

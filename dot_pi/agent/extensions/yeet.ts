@@ -58,18 +58,25 @@ function writeConfiguredCommitModel(commitModel: string) {
   writeFileSync(CONFIG_PATH, `${JSON.stringify({ commitModel }, null, 2)}\n`)
 }
 
+function getConfiguredCommitModel(pi: ExtensionAPI): string {
+  return String(pi.getFlag("yeet-commit-model") || readConfiguredCommitModel()).trim()
+}
+
 function resolveCommitMessageModel(pi: ExtensionAPI, ctx: ExtensionCommandContext) {
-  const configured = String(pi.getFlag("yeet-commit-model") || readConfiguredCommitModel()).trim()
-  if (!configured) return ctx.model
+  const configured = getConfiguredCommitModel(pi)
+  if (!configured) return { model: ctx.model, configured }
 
   const slash = configured.indexOf("/")
-  if (slash <= 0 || slash === configured.length - 1) return undefined
-  return ctx.modelRegistry.find(configured.slice(0, slash), configured.slice(slash + 1))
+  if (slash <= 0 || slash === configured.length - 1) return { model: undefined, configured }
+  return { model: ctx.modelRegistry.find(configured.slice(0, slash), configured.slice(slash + 1)), configured }
 }
 
 async function generateCommitMessage(pi: ExtensionAPI, ctx: ExtensionCommandContext, cwd: string, status: string): Promise<string | undefined> {
-  const model = resolveCommitMessageModel(pi, ctx)
-  if (!model) return undefined
+  const { model, configured } = resolveCommitMessageModel(pi, ctx)
+  if (!model) {
+    if (configured) ctx.ui.notify(`/yeet: configured model not found: ${configured}`, "warning")
+    return undefined
+  }
 
   const auth = await ctx.modelRegistry.getApiKeyAndHeaders(model)
   if (!auth.ok || !auth.apiKey) return undefined
@@ -144,16 +151,22 @@ export default function (pi: ExtensionAPI) {
         return
       }
 
-      const current = readConfiguredCommitModel() || "current model"
+      const current = readConfiguredCommitModel()
+      const currentLabel = current || "current model"
       if (!ctx.hasUI) {
-        ctx.ui.notify(`/yeet-model: current setting is ${current}`, "info")
+        ctx.ui.notify(`/yeet-model: current setting is ${currentLabel}`, "info")
         return
       }
 
       const available = ctx.modelRegistry.getAvailable()
-      const options = ["Use current model", ...available.map((m) => `${m.provider}/${m.id}`)]
-      const selectedLabel = await ctx.ui.select("/yeet commit message model", options)
-      const selected = selectedLabel === "Use current model" ? "" : selectedLabel
+      const modelOptions = available.map((m) => `${m.provider}/${m.id}`)
+      const options = [
+        `Keep current setting (${currentLabel})`,
+        "Use current model",
+        ...modelOptions,
+      ]
+      const selectedLabel = await ctx.ui.select(`/yeet commit message model (current: ${currentLabel})`, options)
+      const selected = selectedLabel === `Keep current setting (${currentLabel})` ? current : selectedLabel === "Use current model" ? "" : selectedLabel
       if (selected === undefined) {
         ctx.ui.notify("/yeet-model: cancelled", "info")
         return
