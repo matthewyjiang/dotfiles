@@ -1,9 +1,9 @@
 {
-  "lastChangelogVersion": "0.79.2",
+  "lastChangelogVersion": "0.79.3",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.5",
   "defaultThinkingLevel": "low",
-  "hideThinkingBlock": true,
+  "hideThinkingBlock": false,
   "theme": "dark",
   "quietStartup": true,
   "packages": [
@@ -13,5 +13,8 @@
   ],
   "extensions": [
     "+/home/emgym/.pi/agent/extensions/custom-header.ts"
-  ]
+  ],
+  "treeFilterMode": "default",
+  "collapseChangelog": true,
+  "enableSkillCommands": false
 }
