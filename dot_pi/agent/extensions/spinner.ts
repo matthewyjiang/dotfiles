@@ -90,7 +90,7 @@ export default function (pi: ExtensionAPI) {
 
   const apply = (ctx: ExtensionContext) => {
     ctx.ui.setWorkingIndicator(indicatorFor(ctx, currentStyle));
-    ctx.ui.setStatus("spinner", ctx.ui.theme.fg("dim", `Spinner: ${labelFor(currentStyle)}`));
+    ctx.ui.setStatus("spinner", undefined);
   };
 
   pi.on("session_start", (_event, ctx) => {
