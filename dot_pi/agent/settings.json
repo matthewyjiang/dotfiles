@@ -15,8 +15,5 @@
   ],
   "extensions": [
     "+/home/emgym/.pi/agent/extensions/custom-header.ts"
-  ],
-  "treeFilterMode": "default",
-  "collapseChangelog": true,
-  "enableSkillCommands": false
+  ]
 }
