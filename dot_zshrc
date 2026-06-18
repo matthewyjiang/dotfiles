@@ -78,7 +78,13 @@ function y() {
 
 # fzf setup
 if command -v fzf >/dev/null 2>&1; then
-  source <(fzf --zsh)
+  autoload -Uz is-at-least
+  fzf_version="${$(fzf --version)%% *}"
+  if is-at-least 0.48.0 "$fzf_version"; then
+    source <(fzf --zsh)
+  elif [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+  fi
 fi
 
 # zoxide setup
