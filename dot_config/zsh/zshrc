@@ -1,82 +1,86 @@
-export PS1="%B%F{green}%n@%m%f %F{blue}%1~%f %# %b"
+# Helpers
+_has() { whence -p "$1" >/dev/null 2>&1 }
 
+# Prompt
+if _has starship; then
+    eval "$(starship init zsh)"
+else
+    PROMPT='%B%F{green}%n@%m%f %F{blue}%1~%f %# %b'
+fi
 
-setopt histignorealldups sharehistory
+# History
+HISTSIZE=50000
+SAVEHIST=50000
+HISTFILE=~/.zsh_history
+setopt appendhistory incappendhistory sharehistory
+setopt histignorealldups histignorespace histreduceblanks
 
-# Use emacs keybindings even if our EDITOR is set to vi
+# Keybindings
 bindkey -e
 
-# Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
-HISTSIZE=1000
-SAVEHIST=1000
-HISTFILE=~/.zsh_history
-
-# Use modern completion system
+# Completion
 autoload -Uz compinit
-compinit
+_zsh_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+[[ -d "$_zsh_cache" ]] || mkdir -p "$_zsh_cache"
+compinit -d "$_zsh_cache/zcompdump"
+unset _zsh_cache
 
-autoload -U colors && colors
+autoload -Uz colors
+colors
 
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select=2
-
-if whence dircolors >/dev/null; then
-  eval "$(dircolors -b)"
-  zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-  alias ls='ls --color'
-else
-  export CLICOLOR=1
-  zstyle ':completion:*:default' list-colors ''
-fi
-
-
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
 zstyle ':completion:*' menu select=long
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
 zstyle ':completion:*' use-compctl false
 zstyle ':completion:*' verbose true
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-if command -v eza >/dev/null 2>&1; then
+# Colors
+if _has dircolors; then
+  eval "$(dircolors -b)"
+  zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+elif [[ -n "$LS_COLORS" ]]; then
+  zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+else
+  export CLICOLOR=1
+  zstyle ':completion:*:default' list-colors ''
+fi
+
+# Aliases
+if _has eza; then
   alias ls='eza --color=auto'
-fi
-if command -v nvim >/dev/null 2>&1; then
-  alias vim="nvim"
-fi
-if command -v zoxide >/dev/null 2>&1; then
-  alias cd="z"
-fi
-if command -v bat >/dev/null 2>&1; then
-  alias cat="bat"
+elif _has dircolors; then
+  alias ls='ls --color'
 fi
 
-if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+_has nvim && alias vim='nvim'
+_has bat && alias cat='bat'
 
-# fzf setup
-if command -v fzf >/dev/null 2>&1; then
+# fzf
+if _has fzf; then
   autoload -Uz is-at-least
   fzf_version="${$(fzf --version)%% *}"
+
   if is-at-least 0.48.0 "$fzf_version"; then
     source <(fzf --zsh)
-  elif [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
+  elif [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
     source /usr/share/doc/fzf/examples/key-bindings.zsh
   fi
+
+  unset fzf_version
 fi
 
-# zoxide setup
-if command -v zoxide >/dev/null 2>&1; then
-  eval "$(zoxide init zsh)"
-fi
+# zoxide
+_has zoxide && eval "$(zoxide init zsh --cmd cd)"
 
-# Local machine/program-specific additions (not managed by chezmoi).
-if [ -f ~/.zshrc.local ]; then
-  source ~/.zshrc.local
+# Syntax highlighting
+if [[ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
