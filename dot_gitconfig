@@ -1,5 +1,5 @@
 [user]
-	email = matthewyjiang@gmail.com
+	email = mattyjiang@pm.me
 	name = Matthew Jiang
 [init]
 	defaultBranch = main
@@ -11,3 +11,9 @@
 	submodule = log
 [branch]
 	sort = -committerdate	
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential

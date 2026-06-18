@@ -43,13 +43,9 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-export EDITOR="nvim"
-export VISUAL="nvim"
-
 if command -v eza >/dev/null 2>&1; then
   alias ls='eza --color=auto'
 fi
-alias clear="printf '\x1b[H\x1b[2J'" 
 if command -v nvim >/dev/null 2>&1; then
   alias vim="nvim"
 fi
@@ -59,19 +55,10 @@ fi
 if command -v bat >/dev/null 2>&1; then
   alias cat="bat"
 fi
-# source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
   source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
-
-function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
-}
 
 # fzf setup
 if command -v fzf >/dev/null 2>&1; then
@@ -88,13 +75,6 @@ fi
 if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
 fi
-
-export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git --exclude node_modules --exclude .cache --exclude __pycache__ --type f"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git --exclude node_modules --exclude .cache --exclude __pycache__ --type d"
-export FZF_DEFAULT_OPTS="--height 50% --layout=default --border --color=hl:#2dd4bf"
-
-export FZF_CTRL_T_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
 # Local machine/program-specific additions (not managed by chezmoi).
 if [ -f ~/.zshrc.local ]; then
