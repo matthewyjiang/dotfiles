@@ -46,9 +46,6 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 export EDITOR="nvim"
 export VISUAL="nvim"
 
-if command -v bun >/dev/null 2>&1 || [ -x "${BUN_INSTALL:-$HOME/.bun}/bin/bun" ]; then
-  export PATH="$HOME/.bun/bin:$PATH"
-fi
 if command -v eza >/dev/null 2>&1; then
   alias ls='eza --color=auto'
 fi
@@ -99,6 +96,7 @@ export FZF_DEFAULT_OPTS="--height 50% --layout=default --border --color=hl:#2dd4
 
 export FZF_CTRL_T_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
-export CXX=clang++
-export CC=clang
-
+# Local machine/program-specific additions (not managed by chezmoi).
+if [ -f ~/.zshrc.local ]; then
+  source ~/.zshrc.local
+fi
