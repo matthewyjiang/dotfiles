@@ -1,6 +1,6 @@
 # AGENTS.md
 
-When creating or editing GitHub issue and PR bodies with the `gh` CLI, use `--body-file` with a temporary Markdown file or a heredoc-generated file. Do not pass Markdown bodies as quoted strings with escaped newlines, because that can produce literal `\n` text in GitHub. Never use em-dashes in pr title, description, or comments. Sound casual, use all lowercase to show as my typing style.
+When creating or editing GitHub issue and PR bodies with the `gh` CLI, use `--body-file` with a temporary Markdown file or a heredoc-generated file. Do not pass Markdown bodies as quoted strings with escaped newlines, because that can produce literal `\n` text in GitHub. Never use em-dashes in pr title, description, or comments. In PR title and body, format well and be professional. In PR conversations with other people, sound casual, use all lowercase to show as my typing style.
 
 ## Code judo
 
