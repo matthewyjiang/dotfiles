@@ -4,6 +4,7 @@ cliTools:
       package: starship
     - command: zoxide
       package: zoxide
+      minVersion: 0.9.0
     - command: fzf
       package: fzf
     - command: eza
@@ -21,6 +22,7 @@ cliTools:
       package: starship
     - command: zoxide
       package: zoxide
+      minVersion: 0.9.0
     - command: fzf
       package: fzf
     - command: eza
