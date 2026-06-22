@@ -31,10 +31,11 @@ fi
 
 # History
 HISTSIZE=50000
-SAVEHIST=50000
 HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
 setopt appendhistory incappendhistory sharehistory
-setopt histignorealldups histignorespace histreduceblanks
+setopt histignorealldups histsavenodups histfindnodups histignorespace histreduceblanks
 
 # Keybindings
 bindkey -e
@@ -44,39 +45,44 @@ autoload -Uz compinit
 _zsh_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 [[ -d "$_zsh_cache" ]] || mkdir -p "$_zsh_cache"
 compinit -d "$_zsh_cache/zcompdump"
-unset _zsh_cache
 
 autoload -Uz colors
 colors
 
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _expand _complete _correct _approximate
-zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' use-cache yes
+zstyle ':completion:*' cache-path "$_zsh_cache"
+zstyle ':completion:*' menu select
 zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select=long
-zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
-zstyle ':completion:*' use-compctl false
-zstyle ':completion:*' verbose true
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*' format '%F{blue}%d%f'
+zstyle ':completion:*:descriptions' format '%F{yellow}%d%f'
+zstyle ':completion:*:messages' format '%F{purple}%d%f'
+zstyle ':completion:*:warnings' format '%F{red}No matches for: %d%f'
+zstyle ':completion:*' matcher-list \
+  'm:{a-zA-Z}={A-Za-z}' \
+  'r:|[._-]=* r:|=* l:|=*'
 
+zstyle ':completion:*:*:kill:*:processes' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+unset _zsh_cache
 
 # Colors
-if _has dircolors; then
+if _has vivid; then
+  export LS_COLORS="$(vivid generate catppuccin-mocha)"
+elif _has dircolors; then
   eval "$(dircolors -b)"
-  zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-elif [[ -n "$LS_COLORS" ]]; then
-  zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 else
   export CLICOLOR=1
-  zstyle ':completion:*:default' list-colors ''
 fi
+
+[[ -n "$LS_COLORS" ]] && zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # Aliases
 if _has eza; then
-  alias ls='eza --color=auto'
+  alias ls='eza --color=auto --icons=auto'
+  alias ll='eza -la --color=auto --icons=auto --git'
+  alias tree='eza --tree --color=auto --icons=auto'
 elif _has dircolors; then
   alias ls='ls --color'
 fi
