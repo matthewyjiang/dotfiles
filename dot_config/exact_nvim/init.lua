@@ -86,5 +86,14 @@ vim.keymap.set("n", "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", { desc = "Qu
 
 require("config.lazy")
 
-vim.cmd("colorscheme onedark_dark")
+local dankcolors = vim.fn.stdpath("config") .. "/lua/plugins/dankcolors.lua"
+if vim.fn.filereadable(dankcolors) == 1 then
+  pcall(require("lazy").load, { plugins = { "base16-nvim" } })
+  local ok, spec = pcall(dofile, dankcolors)
+  if ok and spec and spec[1] and spec[1].config then
+    spec[1].config()
+  end
+else
+  vim.cmd("colorscheme onedark_dark")
+end
 
