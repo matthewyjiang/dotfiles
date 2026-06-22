@@ -4,6 +4,27 @@ _has() { whence -p "$1" >/dev/null 2>&1 }
 # Prompt
 if _has starship; then
     eval "$(starship init zsh)"
+
+    # Starship does not currently provide native zsh transience. These zle hooks
+    # redraw the just-submitted prompt as only Starship's character module, then
+    # restore the full prompt before the next command line starts.
+    _starship_full_prompt=$PROMPT
+    _starship_full_rprompt=$RPROMPT
+
+    _starship_transient_prompt() {
+        PROMPT="$(starship module character)"
+        RPROMPT=""
+        zle .reset-prompt
+    }
+
+    _starship_restore_prompt() {
+        PROMPT=$_starship_full_prompt
+        RPROMPT=$_starship_full_rprompt
+        zle .reset-prompt
+    }
+
+    zle -N zle-line-finish _starship_transient_prompt
+    zle -N zle-line-init _starship_restore_prompt
 else
     PROMPT='%B%F{green}%n@%m%f %F{blue}%1~%f %# %b'
 fi
