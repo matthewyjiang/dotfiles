@@ -31,6 +31,8 @@ require("lazy").setup({
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
   install = { colorscheme = { "habamax" } },
+  -- Keep lazy-lock.json out of the chezmoi-managed config so plugins can update freely.
+  lockfile = vim.fn.stdpath("state") .. "/lazy-lock.json",
   -- automatically check for plugin updates
   checker = { enabled = true },
 })
