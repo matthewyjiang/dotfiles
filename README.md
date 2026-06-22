@@ -30,3 +30,4 @@ chezmoi apply
 
 - Files in this repo map to locations in your home directory when applied with `chezmoi`.
 - Edit through `chezmoi` and then apply changes to keep everything in sync.
+- `chezmoi apply` runs `.chezmoiscripts/run_after_10-install-cli-tools.sh.tmpl`, which renders per OS and installs missing CLI tools from `.chezmoidata/cli-tools.yaml` with Homebrew, apt, dnf, pacman, zypper, or apk when available.

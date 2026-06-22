@@ -1,0 +1,37 @@
+cliTools:
+  darwin:
+    - command: starship
+      package: starship
+    - command: zoxide
+      package: zoxide
+    - command: fzf
+      package: fzf
+    - command: eza
+      package: eza
+    - command: bat
+      package: bat
+    - command: vivid
+      package: vivid
+    - command: nvim
+      package: neovim
+    - command: fastfetch
+      package: fastfetch
+  linux:
+    - command: starship
+      package: starship
+    - command: zoxide
+      package: zoxide
+    - command: fzf
+      package: fzf
+    - command: eza
+      package: eza
+    - command: bat
+      package: bat
+    - command: vivid
+      package: vivid
+    - command: nvim
+      package: neovim
+    - command: fastfetch
+      package: fastfetch
+    - command: zsh-syntax-highlighting
+      package: zsh-syntax-highlighting
