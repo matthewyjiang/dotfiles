@@ -6,9 +6,11 @@ Never use the em-dash, use plain dashes instead. Never manually modify CHANGELOG
 
 Prioritize quality, simplicity, robustness, scalability, and long term maintainability over development cost. For bug fixes, first reproduce the issue in an E2E setting as close as possible to the user path. Fix obvious adjacent issues when encountered, including lint failures, test failures, and test flakiness.
 
+Avoid custom multithreading and locks. In ROS code, avoid ROS multithreading as much as possible too. Always prefer a clean single-threaded design, or an asynchronous node built around ROS callbacks, timers, actions, services, lifecycle transitions, and non-blocking state machines. Do not introduce manual threads, mutexes, or other locking unless explicitly requested, because deadlocks are not worth debugging.
+
 # Github CLI
 
-When creating or editing GitHub issue and PR bodies with the `gh` CLI, use `--body-file` with a temporary Markdown file or a heredoc-generated file. Do not pass Markdown bodies as quoted strings with escaped newlines, because that can produce literal `\n` text in GitHub.
+When creating or editing GitHub issue and PR bodies with the `gh` CLI, use `--body-file` with a temporary Markdown file or a heredoc-generated file. Do not pass Markdown bodies as quoted strings with escaped newlines, because that can produce literal `\n` text in GitHub. `gh` CLI is authenticated on this machine.
 
 In PR titles and bodies, format well and be professional. In PR conversations with other people, sound casual, use all lowercase to show as my typing style.
 
