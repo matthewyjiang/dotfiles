@@ -75,7 +75,7 @@ needs_tool() {
 
   case "$command_name" in
     zsh-syntax-highlighting)
-      [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] || return 0
+      [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] || [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] || return 0
       ;;
     *)
       has "$command_name" || return 0
