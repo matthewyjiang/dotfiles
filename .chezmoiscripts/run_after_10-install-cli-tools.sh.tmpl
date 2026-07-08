@@ -40,7 +40,13 @@ installed_version() {
     starship) starship --version 2>/dev/null | awk '{print $2}' ;;
     fzf) fzf --version 2>/dev/null | awk '{print $1}' ;;
     eza) eza --version 2>/dev/null | awk 'NR == 1 {print $2}' | sed 's/^v//' ;;
-    bat) bat --version 2>/dev/null | awk '{print $2}' ;;
+    bat)
+      if has bat; then
+        bat --version 2>/dev/null | awk '{print $2}'
+      else
+        batcat --version 2>/dev/null | awk '{print $2}'
+      fi
+      ;;
     vivid) vivid --version 2>/dev/null | awk '{print $2}' ;;
     nvim) nvim --version 2>/dev/null | awk 'NR == 1 {print $2}' | sed 's/^v//' ;;
     fastfetch) fastfetch --version 2>/dev/null | awk '{print $2}' ;;
@@ -74,6 +80,9 @@ needs_tool() {
   minimum_version="$2"
 
   case "$command_name" in
+    bat)
+      has bat || has batcat || return 0
+      ;;
     zsh-syntax-highlighting)
       [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] || [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] || return 0
       ;;
