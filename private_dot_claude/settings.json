@@ -1,0 +1,10 @@
+{
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "model": "opus",
+  "alwaysThinkingEnabled": true,
+  "tui": "fullscreen",
+  "workflowKeywordTriggerEnabled": false
+}
