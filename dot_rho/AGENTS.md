@@ -48,4 +48,12 @@ In PR titles and bodies, format well and be professional. In PR conversations wi
 
 Please use max jobs 8 on any build commands including make, cargo, etc. to save cpu for any other agents that may need some of the cpu.
 
+To prevent OOM, subagents should NOT independently run build commands, but rather the parent should aggregate work and validate it all together.
+
 When running builds, tests, or other verbose commands, redirect logs to a temporary file and inspect or search it for success, failure, warnings, and relevant excerpts. Do not stream or paste full logs into the conversation context; summarize results concisely and include the temp log path when useful.
+
+No tautological tests.
+
+# Installing toolchains
+
+We use mise on this machine. You may add anything you need to mise, just ask me before doing so. I actually encourage you to do.
