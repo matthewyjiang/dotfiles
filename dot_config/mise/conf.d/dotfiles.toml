@@ -1,0 +1,14 @@
+# Dev tools the dotfiles depend on (zshrc, nvim, gitconfig's gh credential helper).
+# Loaded by mise as global config alongside ~/.config/mise/config.toml, so
+# `mise use -g` keeps writing to config.toml and never fights chezmoi.
+# Changing this file makes `chezmoi apply` re-run `mise install`.
+[tools]
+bat = "latest"
+eza = "latest"
+fastfetch = "latest"
+fzf = "latest"
+gh = "latest"
+neovim = "latest"
+starship = "latest"
+vivid = "latest"
+zoxide = "latest"

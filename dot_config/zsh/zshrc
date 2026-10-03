@@ -1,6 +1,11 @@
 # Helpers
 _has() { whence -p "$1" >/dev/null 2>&1 }
 
+# mise: activate first so the tools it manages are on PATH for the checks below.
+_mise="$(whence -p mise || print -r -- "$HOME/.local/bin/mise")"
+[[ -x "$_mise" ]] && eval "$("$_mise" activate zsh)"
+unset _mise
+
 # Prompt
 if _has starship; then
     eval "$(starship init zsh)"
@@ -92,22 +97,13 @@ _has bat && alias cat='bat'
 
 # fzf
 if _has fzf; then
-  autoload -Uz is-at-least
-  fzf_version="${$(fzf --version)%% *}"
-
-  if is-at-least 0.48.0 "$fzf_version"; then
-    source <(fzf --zsh)
-  elif [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
-    source /usr/share/doc/fzf/examples/key-bindings.zsh
-  fi
-
-  unset fzf_version
+  source <(fzf --zsh)
 fi
 
 # zoxide
 _has zoxide && eval "$(zoxide init zsh --cmd cd)"
 
-# Syntax highlighting
-if [[ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+# Syntax highlighting (cloned by chezmoi via .chezmoiexternal.toml; must be sourced last)
+_zsh_hl="$HOME/.local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+[[ -f "$_zsh_hl" ]] && source "$_zsh_hl"
+unset _zsh_hl
