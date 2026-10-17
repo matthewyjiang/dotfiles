@@ -28,6 +28,16 @@ For bug fixes, first reproduce the issue in an E2E setting as close as possible 
 - Comments are a great way to clarify functionality and how code is used. Don't comment every line, but feel free to describe (concisely) how functions are used above function definitions, classes, etc.
 - Keep comments up to date! When making changes, it's important to keep things in sync.
 
+# Tool preferences
+
+- `uv` for python projects
+- `xtool` for building ios apps on linux
+- `pkexec` for running commands that need sudo
+
+# Workflow
+
+- Always use the `pstack` skill when it applies: any nontrivial engineering task (design, implementation, fixes, reviews, PRs). Load it first and follow its routing. Skip it for trivial edits and quick questions.
+
 # Multi agent work
 
 - When several agents do work in parallel, state file ownership up front so they do not collide.
